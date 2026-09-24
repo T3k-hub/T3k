@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T3K – Bewerbung</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;background:radial-gradient(circle at 50% 0%,#260000 0%,#090000 28%,#020202 72%);color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  display:flex;justify-content:center;align-items:center;padding:24px;
+}
+.card{
+  width:100%;max-width:680px;background:#101010;
+  border:1px solid #4b0000;border-radius:20px;padding:32px;
+  box-shadow:0 0 80px rgba(190,0,0,.28), inset 0 1px rgba(255,255,255,.05);
+  backdrop-filter:blur(14px);
+}
+.card:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:20px;background:linear-gradient(120deg,rgba(255,0,0,.08),transparent 35%,rgba(255,0,0,.03));}
+.card{position:relative;overflow:hidden}
+.logo{text-align:center;color:#e50909;font-size:46px;font-weight:900;letter-spacing:8px}
+.sub{text-align:center;color:#777;margin:6px 0 30px;letter-spacing:2px}
+h1{text-align:center;font-size:26px;margin-bottom:28px}
+.field{margin-bottom:22px}
+label{display:block;font-weight:700;margin-bottom:8px;color:#ddd}
+input[type=text],input[type=number],textarea{
+  width:100%;background:#080808;color:#fff;border:1px solid #333;
+  border-radius:9px;padding:13px;outline:none
+}
+input:focus,textarea:focus{border-color:#d00000}
+textarea{min-height:100px;resize:vertical}
+.skill{
+  background:#090909;border:1px solid #292929;border-radius:12px;
+  padding:17px;margin-bottom:13px
+}
+.skillhead{display:flex;justify-content:space-between;margin-bottom:12px}
+.score{color:#ff2424;font-size:20px;font-weight:800}
+input[type=range]{width:100%;accent-color:#e00000;cursor:pointer}
+.scale{display:flex;justify-content:space-between;color:#555;font-size:12px;margin-top:5px}
+button{
+  width:100%;padding:15px;border:0;border-radius:10px;
+  background:#c90000;color:white;font-size:16px;font-weight:800;
+  cursor:pointer;transition:.2s
+}
+button:hover{background:#f00000;box-shadow:0 0 28px rgba(255,0,0,.45);transform:translateY(-1px)}
+button:disabled{opacity:.6;cursor:wait;transform:none}
+.status{display:none;text-align:center;margin:0 0 18px;padding:12px;border:1px solid #430000;background:#120000;color:#ff7777;border-radius:9px}
+.status.show{display:block}
+.back{display:block;text-align:center;margin-top:18px;color:#777;font-size:12px}.back:hover{color:#fff}
+.note{text-align:center;color:#666;font-size:12px;margin-top:15px}
+#success{display:none;text-align:center;padding:35px 10px}
+#success .check{font-size:50px;color:#e00000;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">T3K</div>
+  <div class="sub">APPLICATION</div>
+
+  <div id="status" class="status"></div>
+  <div id="formView">
+    <h1>Bewerbung für T3K</h1>
+
+    <div class="field">
+      <label for="name">Name / Ingame-Name</label>
+      <input id="name" type="text" placeholder="Dein Name">
+    </div>
+
+    <div class="field">
+      <label for="age">Alter</label>
+      <input id="age" type="number" min="13" max="99" placeholder="z. B. 18">
+    </div>
+
+    <div class="field">
+      <label for="reason">Warum möchtest du T3K beitreten?</label>
+      <textarea id="reason" placeholder="Erzähl uns kurz etwas über dich..."></textarea>
+    </div>
+
+    <h2 style="font-size:18px;margin:28px 0 14px">Deine Selbsteinschätzung</h2>
+
+    <div class="skill">
+      <div class="skillhead"><span>Blaze</span><span class="score" id="blazeValue">1 / 5</span></div>
+      <input type="range" min="1" max="5" value="1" id="blaze">
+      <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+    </div>
+
+    <div class="skill">
+      <div class="skillhead"><span>L4L</span><span class="score" id="l4lValue">1 / 5</span></div>
+      <input type="range" min="1" max="5" value="1" id="l4l">
+      <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+    </div>
+
+    <div class="skill">
+      <div class="skillhead"><span>Speed</span><span class="score" id="speedValue">1 / 5</span></div>
+      <input type="range" min="1" max="5" value="1" id="speed">
+      <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+    </div>
+
+    <div class="skill">
+      <div class="skillhead"><span>Stamina</span><span class="score" id="staminaValue">1 / 5</span></div>
+      <input type="range" min="1" max="5" value="1" id="stamina">
+      <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+    </div>
+
+    <button onclick="submitApplication()">BEWERBUNG ABSENDEN</button>
+    <div class="note">Deine Bewerbung wird verschlüsselt an das geschützte T3K-Owner-Postfach übermittelt.</div>
+    <a class="back" href="index.html">← ZURÜCK ZU T3K</a>
+  </div>
+
+  <div id="success">
+    <div class="check">✓</div>
+    <h1>Bewerbung abgeschickt</h1>
+    <p style="color:#888;margin-top:10px">Danke für deine Bewerbung bei T3K.</p>
+    <button style="margin-top:25px" onclick="location.reload()">NEUE BEWERBUNG</button>
+  </div>
+</div>
+
+<script>
+const skills = ["blaze","l4l","speed","stamina"];
+
+skills.forEach(skill=>{
+  const slider=document.getElementById(skill);
+  const value=document.getElementById(skill+"Value");
+  slider.addEventListener("input",()=>{
+    value.textContent=slider.value+" / 5";
+  });
+});
+
+async function submitApplication(){
+  const button=document.querySelector('button[onclick="submitApplication()"]');
+  const status=document.getElementById('status');
+  const name=document.getElementById('name').value.trim();
+  const age=document.getElementById('age').value.trim();
+  const reason=document.getElementById('reason').value.trim();
+  if(!name || !age || !reason){
+    status.textContent='Bitte Name, Alter und Motivation ausfüllen.';
+    status.classList.add('show');
+    return;
+  }
+  const payload={name,age,reason,skills:{blaze:+document.getElementById('blaze').value,l4l:+document.getElementById('l4l').value,speed:+document.getElementById('speed').value,stamina:+document.getElementById('stamina').value}};
+  button.disabled=true; button.textContent='WIRD GESENDET...'; status.classList.remove('show');
+  try{
+    const res=await fetch('/api/applications',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||'Senden fehlgeschlagen');
+    document.getElementById('formView').style.display='none';
+    document.getElementById('success').style.display='block';
+  }catch(err){
+    status.textContent='Fehler: '+err.message; status.classList.add('show');
+    button.disabled=false; button.textContent='BEWERBUNG ABSENDEN';
+  }
+}
+</script>
+</body>
+</html>
